@@ -4,7 +4,7 @@
 #
 Name     : psstop
 Version  : 1.2
-Release  : 11
+Release  : 12
 URL      : https://github.com/clearlinux/psstop/archive/v1.2.tar.gz
 Source0  : https://github.com/clearlinux/psstop/archive/v1.2.tar.gz
 Summary  : No detailed summary available
