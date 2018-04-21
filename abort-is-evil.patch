@@ -1,0 +1,25 @@
+From a507406dd839e2a5d9a7a31ffad93007a5030324 Mon Sep 17 00:00:00 2001
+From: Victor Rodriguez <victor.rodriguez.bahena@intel.com>
+Date: Sat, 21 Apr 2018 13:53:55 +0000
+Subject: [PATCH] abort is evil
+
+Signed-off-by: Victor Rodriguez <victor.rodriguez.bahena@intel.com>
+---
+ src/main.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/main.c b/src/main.c
+index abc6610..4e1704e 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -181,7 +181,6 @@ int main(int argc, char **argv)
+                 return EXIT_SUCCESS;
+             default:
+                 print_help();
+-                abort ();
+         }
+     }
+         dir = opendir("/proc");
+-- 
+2.17.0
+
