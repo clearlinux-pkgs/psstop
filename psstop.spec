@@ -4,7 +4,7 @@
 #
 Name     : psstop
 Version  : 1.3
-Release  : 14
+Release  : 15
 URL      : https://github.com/clearlinux/psstop/releases/download/v1.3/psstop-1.3.tar.gz
 Source0  : https://github.com/clearlinux/psstop/releases/download/v1.3/psstop-1.3.tar.gz
 Summary  : No detailed summary available
