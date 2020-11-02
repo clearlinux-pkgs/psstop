@@ -4,14 +4,15 @@
 #
 Name     : psstop
 Version  : 1.3
-Release  : 16
+Release  : 17
 URL      : https://github.com/clearlinux/psstop/releases/download/v1.3/psstop-1.3.tar.gz
 Source0  : https://github.com/clearlinux/psstop/releases/download/v1.3/psstop-1.3.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-3.0
-Requires: psstop-bin
-Requires: psstop-doc
+Requires: psstop-bin = %{version}-%{release}
+Requires: psstop-license = %{version}-%{release}
+Requires: psstop-man = %{version}-%{release}
 BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gthread-2.0)
 Patch1: abort-is-evil.patch
@@ -23,42 +24,62 @@ as shown in /proc/PID/smaps
 %package bin
 Summary: bin components for the psstop package.
 Group: Binaries
+Requires: psstop-license = %{version}-%{release}
 
 %description bin
 bin components for the psstop package.
 
 
-%package doc
-Summary: doc components for the psstop package.
-Group: Documentation
+%package license
+Summary: license components for the psstop package.
+Group: Default
 
-%description doc
-doc components for the psstop package.
+%description license
+license components for the psstop package.
+
+
+%package man
+Summary: man components for the psstop package.
+Group: Default
+
+%description man
+man components for the psstop package.
 
 
 %prep
 %setup -q -n psstop-1.3
+cd %{_builddir}/psstop-1.3
 %patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1524318982
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604354232
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1524318982
+export SOURCE_DATE_EPOCH=1604354232
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/psstop
+cp %{_builddir}/psstop-1.3/COPYING %{buildroot}/usr/share/package-licenses/psstop/8624bcdae55baeef00cd11d5dfcfa60f68710a02
 %make_install
 
 %files
@@ -68,6 +89,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/bin/psstop
 
-%files doc
-%defattr(-,root,root,-)
-%doc /usr/share/man/man1/*
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/psstop/8624bcdae55baeef00cd11d5dfcfa60f68710a02
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/psstop.1
